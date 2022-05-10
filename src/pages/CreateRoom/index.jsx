@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { FormControl, FormControlLabel, FormHelperText, Grid, RadioGroup, Radio, TextField, Button } from '@mui/material';
 import { Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
 
 const CreateRoom = () => {
+
+  const navigate = useNavigate()
 
   const [ votes, setVotes ] = useState(1)
   const [pause, setPause] = useState(true)
@@ -12,7 +14,7 @@ const CreateRoom = () => {
   const handleSubmit = () => {
     api
     .post('/create_room/', {guest_can_pause: pause, votes_to_skip: votes})
-    .then((response) => console.log(response))
+    .then((response) => navigate(`/room/${response.data.code}`))
     .catch((e)=> console.log(e))
   }
 
